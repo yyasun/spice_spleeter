@@ -1,0 +1,164 @@
+html, body {
+    background: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    text-align: center;
+    font-weight: 400;
+}
+h4 {
+    text-align: center;
+    font-weight: 400;
+}
+
+.card {
+    background: #F7F7F7;
+    border-radius: 24px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+    padding: 1em;
+    margin: 1em;
+    opacity: 1;
+    transition: 0.3s;
+
+}
+.card:hover {background-color: rgb(253, 255, 239)}
+
+.card:active {
+  background-color: #e6edcd;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.15);
+  transform: translateY(2px);}
+
+.button2{
+    background: #2C2B2B;
+    border-radius: 99px;
+    color: #FFFFFF;
+    width: 500;
+    padding: 0.5em 1em;
+    transition: 0.3s;
+    stroke: none;
+
+}
+.button2:hover{
+    background: #3a3a3a;
+}
+.card h3 {
+    color: #000000;
+    font-size: 32px;
+    line-height: 39px;
+    font-weight: 450;
+}
+
+.card p {
+    color: #5B5B5B;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+}
+
+nav a {
+    color: #0E0E0E;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15.125px;
+    line-height: 16px;
+}
+
+nav a[role="button"] {
+    background: #2C2B2B;
+    border-radius: 999px;
+    color: #FFFFFF;
+    padding: 0.5em 1em;
+}
+
+
+.wrapper {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+footer {
+    flex-shrink: 0; /* Prevent the footer from shrinking */
+    text-align: center;
+    color: #5B5B5B;
+    font-size: 17px;
+    line-height: 30px;
+    margin-top: auto; /* Push the footer to the bottom */
+  }
+.footer-text {
+    width: 100%;
+    text-align: center; 
+
+    /* Other styles for your footer */
+}
+
+.card .arrow-container {
+    /* A container for the arrow to help with alignment if needed */
+    display: flex;
+    align-items: right;
+    justify-content: right;
+}
+.card img.arrow {
+    /* Styling for the arrow image */
+    width: 18px; /* Width of your SVG arrow */
+    height: auto; /* Maintain aspect ratio */
+}
+.card img.archive {
+    /* Styling for the arrow image */
+    width: 18px; /* Width of your SVG arrow */
+    height: 18px; /* Maintain aspect ratio */
+}
+/* Additional styles for specific elements and responsiveness can be added here */
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.file-upload-box {
+    border: 3px dashed #898989;
+    border-radius: 24px;
+    width: 400px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.file-upload-box:hover{
+    background: #f5f8e4;
+    color: #FFFFFF;
+    width: 500;
+    padding: 0.5em 1em;
+    transition: 0.4s;
+}
+.file-drag {
+    text-align: center;
+    color: #5B5B5B;
+    font-size: 20px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.download-icon {
+    
+    width: 80px; /* Adjust as necessary */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+

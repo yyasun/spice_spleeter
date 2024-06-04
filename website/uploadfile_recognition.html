@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sound Recognition Solutions</title>
+</head>
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <h3 style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px;" onclick="window.location.href='homepage.html';">LOGO</h3>
+            
+        </ul>
+        <ul>
+            <li><a href="contacts.html">Контакти</a></li>
+            <li><a href="about_us.html">Про нас</a></li>
+            <li><a href="help.html">Підтримка</a></li>
+            <li><a href="archive.html" role="button">Архів  <img src="archive.svg" alt="Archive" class="archive"></a></li>
+        </ul>
+    </nav>
+    <main class="container">
+    <div class="upload-container">
+        <h4>Завантажте акапельний аудіофайл для генерації партитури</h4>
+        <div class="file-upload-box">
+            <input type="file" id="file-upload" hidden/>
+            <label for="file-upload" class="file-drag">
+                <img src="download-icon.svg" alt="Download" class="download-icon">
+                <br> Choose a file or drag it here.
+            </label>
+        </div>
+        <div id="progress-container" style="display:none;">
+            <label for="file-progress">Uploading and transcribing:</label>
+            <progress id="file-progress" value="0" max="100"></progress>
+        </div>
+        <button id="go-to-notes" role="button" class="button2" style="display:none;" onclick="window.location.href='noterecognition.html';">Розпізнати ноти</button>
+    </div>
+    </main>
+    <footer class="footer-text">
+        Горобчук Марія. Група КН-41. Факультет Інформаційних технологій КНУ
+    </footer>
+
+    <script>
+        document.getElementById('file-upload').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var progressBarContainer = document.getElementById('progress-container');
+            var progressBar = document.getElementById('file-progress');
+            var goToNotesButton = document.getElementById('go-to-notes');
+
+            progressBarContainer.style.display = 'block';
+            progressBar.value = 0; // Reset progress bar value
+            var link = document.createElement('a');
+            if (file) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://127.0.0.1:5000/upload", true);
+                xhr.responseType = 'blob'; // Set the response type to blob for file download
+                xhr.upload.onprogress = function(event) {
+                    if (event.lengthComputable) {
+                        var percentComplete = (event.loaded / event.total) * 100;
+                        progressBar.value = percentComplete;
+                    }
+                };
+
+                xhr.onload = function() {
+                    if (xhr.status == 201) {
+                        var blob = xhr.response;                        
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = "output.mid"; // You can set the file name here
+                        link.click();
+
+                        goToNotesButton.style.display = 'block'; // Show the "Розпізнати ноти" button
+                    } else {
+                        alert("Error uploading file");
+                    }
+                };
+
+                var formData = new FormData();
+                formData.append("file", file);
+                xhr.send(formData);
+            }
+        });
+    </script>
+</body>
+</html>
