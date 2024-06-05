@@ -1,3 +1,4 @@
+import os
 import tensorflow as tf
 import tensorflow_hub as hub
 import numpy as np
@@ -30,7 +31,9 @@ logger.setLevel(logging.ERROR)
 
 
 def extract_vocals(file_name) -> str:
-    pass
+    val = os.system(f"spleeter separate {file_name} -o ./spleeter-out/")
+    
+    return f"spleeter-out\\{file_name[:-4]}\\vocals.wav"
 
 def extract_notes(file_name) -> str:
     converted_audio_file = convert_audio_for_model(file_name)
@@ -94,7 +97,7 @@ def extract_notes(file_name) -> str:
     
     converted_audio_file_as_midi = converted_audio_file[:-4] + '.mid'
     sc.write('midi', fp=converted_audio_file_as_midi)
-    sc.write('musicxml.png', fp="out-img.png")
+    sc.write('musicxml.png', fp="music-sheet.png")
     return converted_audio_file_as_midi
     
 

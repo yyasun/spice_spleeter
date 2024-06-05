@@ -11,7 +11,7 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload/', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
         return jsonify({'error': 'File is required.'}), 400
@@ -25,9 +25,23 @@ def upload_file():
 
     return jsonify({'error': 'File upload failed.'}), 400
 
+@app.route('/upload/separate', methods=['POST'])
+def upload_file_separate():
+    if 'file' not in request.files:
+        return jsonify({'error': 'File is required.'}), 400
+
+    file = request.files['file']    
+
+    if file:
+        file.save(file.filename)
+        output_file_name = ml.extract_vocals(file.filename)
+        return send_file(output_file_name, as_attachment=True), 201
+
+    return jsonify({'error': 'File upload failed.'}), 400
+
 @app.route('/download/<filename>', methods=['GET'])
 def download_file(filename):
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file_path = filename
     if os.path.exists(file_path):
         return send_file(file_path, as_attachment=True)
     else:
