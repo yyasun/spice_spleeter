@@ -27,7 +27,7 @@ def upload_file():
 
 @app.route('/download/<filename>', methods=['GET'])
 def download_file(filename):
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file_path = filename
     if os.path.exists(file_path):
         return send_file(file_path, as_attachment=True)
     else:

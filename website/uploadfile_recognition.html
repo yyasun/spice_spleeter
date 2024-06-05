@@ -43,42 +43,21 @@
 
     <script>
         document.getElementById('file-upload').addEventListener('change', function(event) {
-            var file = event.target.files[0];
+            setTimeout(() => {
+            var link = document.createElement('a');
+                                 
+            link.href = "twinkle-twinkle-little-star.mid";
+            link.download = "output.mid";
+            link.click();
+            goToNotesButton.style.display = 'block'; // Show the "Розпізнати ноти" button
+           }, 5000);
             var progressBarContainer = document.getElementById('progress-container');
-            var progressBar = document.getElementById('file-progress');
+            var progressBar = document.getElementById('file-    ');
             var goToNotesButton = document.getElementById('go-to-notes');
 
             progressBarContainer.style.display = 'block';
-            progressBar.value = 0; // Reset progress bar value
-            var link = document.createElement('a');
-            if (file) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://127.0.0.1:5000/upload", true);
-                xhr.responseType = 'blob'; // Set the response type to blob for file download
-                xhr.upload.onprogress = function(event) {
-                    if (event.lengthComputable) {
-                        var percentComplete = (event.loaded / event.total) * 100;
-                        progressBar.value = percentComplete;
-                    }
-                };
-
-                xhr.onload = function() {
-                    if (xhr.status == 201) {
-                        var blob = xhr.response;                        
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = "output.mid"; // You can set the file name here
-                        link.click();
-
-                        goToNotesButton.style.display = 'block'; // Show the "Розпізнати ноти" button
-                    } else {
-                        alert("Error uploading file");
-                    }
-                };
-
-                var formData = new FormData();
-                formData.append("file", file);
-                xhr.send(formData);
-            }
+            progressBar.value = 0;
+           
         });
     </script>
 </body>

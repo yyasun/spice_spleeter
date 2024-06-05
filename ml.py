@@ -63,7 +63,7 @@ def extract_notes(file_name) -> str:
     best_notes_and_rests = None
     best_predictions_per_note = None
 
-    for predictions_per_note in range(20, 35, 1):
+    for predictions_per_note in range(20, 50, 1):
         for prediction_start_offset in range(predictions_per_note):
 
             error, notes_and_rests = get_quantization_and_error(
