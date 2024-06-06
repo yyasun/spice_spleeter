@@ -34,7 +34,7 @@
             <label for="file-progress">Uploading and transcribing:</label>
             <progress id="file-progress" value="0" max="100"></progress>
         </div>
-        <button id="go-to-notes" role="button" class="button2" style="display:none;" onclick="window.location.href='noterecognition.html';">Розпізнати ноти</button>
+        <button id="go-to-notes" role="button" class="button2" style="display:none;" onclick="gotonotes();">Розпізнати ноти</button>
     </div>
     </main>
     <footer class="footer-text">
@@ -42,6 +42,11 @@
     </footer>
 
     <script>
+        
+        var filename = "";
+        function gotonotes() {
+            window.location.href='noterecognition.html?filename=' + filename
+        }
         document.getElementById('file-upload').addEventListener('change', function(event) {
             var file = event.target.files[0];
             var progressBarContainer = document.getElementById('progress-container');
@@ -53,8 +58,7 @@
             var link = document.createElement('a');
             if (file) {
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://127.0.0.1:5000/upload", true);
-                xhr.responseType = 'blob'; // Set the response type to blob for file download
+                xhr.open("POST", "http://127.0.0.1:5000/upload/notes", true);
                 xhr.upload.onprogress = function(event) {
                     if (event.lengthComputable) {
                         var percentComplete = (event.loaded / event.total) * 100;
@@ -64,11 +68,9 @@
 
                 xhr.onload = function() {
                     if (xhr.status == 201) {
-                        var blob = xhr.response;                        
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = "output.mid"; // You can set the file name here
-                        link.click();
-
+                        var json = JSON.parse(xhr.response);                        
+                        filename = json.filename;
+                        
                         goToNotesButton.style.display = 'block'; // Show the "Розпізнати ноти" button
                     } else {
                         alert("Error uploading file");

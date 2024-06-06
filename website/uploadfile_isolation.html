@@ -35,7 +35,8 @@
     <label for="file-progress">Uploading:</label>
     <progress id="file-progress" value="0" max="100"></progress>
 </div>
-<button id="go-to-notes" role="button"  class="button2" style="display:none;" onclick="window.location.href='noterecognition.html';">Розпізнати ноти</button>
+<div id="output" width="100%"></div>
+<button id="download" role="button" class="button2" style="display:none;" onclick="download();">Завантажити ізольований вокал</button>
 
     </main>
     <footer class="footer-text">
@@ -43,42 +44,55 @@
     </footer>
 
     <script>
-       document.getElementById('file-upload').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    var progressBarContainer = document.getElementById('progress-container');
-    var progressBar = document.getElementById('file-progress');
-    var goToNotesButton = document.getElementById('go-to-notes');
+        var filename = "";
 
-    progressBarContainer.style.display = 'block';
-    progressBar.value = 0; // Reset progress bar value
+        function download() {
+            var link = document.createElement('a');         
+            link.href = "http://127.0.0.1:5000/download?filename="+filename;
+            link.download = "vocals.wav";
+            link.click();
+        }
+        document.getElementById('file-upload').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var outputElement = document.getElementById("output");
+            var progressBarContainer = document.getElementById('progress-container');
+            var progressBar = document.getElementById('file-progress');
+            var downloadButton = document.getElementById('download');
 
-
-    if (file) {
-        // Simulate file upload progress
-        var progressInterval = setInterval(function() {
-            if (progressBar.value < 100) {
-                progressBar.value += 10; // Increment progress bar value
-            } else {
-                clearInterval(progressInterval); // Clear interval when upload is complete
-                goToNotesButton.style.display = 'block'; // Show the "Розпізнати ноти" button
-
-                // Use FileReader to read the file as a Data URL
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    // Store the Data URL in localStorage
-                    localStorage.setItem("audioFile", e.target.result);
-                    // Optionally, change the button behavior to proceed to the next page
-                    goToNotesButton.onclick = function() {
-                        // Redirect to the next page
-                        window.location.href = 'noterecognition.html';
-                    };
+            progressBarContainer.style.display = 'block';
+            progressBar.value = 0; // Reset progress bar value
+            if (file) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://127.0.0.1:5000/upload/separate", true);
+                xhr.upload.onprogress = function(event) {
+                    if (event.lengthComputable) {
+                        var percentComplete = (event.loaded / event.total) * 100;
+                        progressBar.value = percentComplete;
+                    }
                 };
-                reader.readAsDataURL(file);
-            }
-        }, 500); // Update progress every half-second (for simulation purposes)
-    }
-});
 
+                xhr.onload = function() {
+                    if (xhr.status == 201) {
+                        var json = JSON.parse(xhr.response);                        
+                        filename = json.filename;
+                        
+                        var audio = document.createElement('audio');         
+                        audio.src = "http://127.0.0.1:5000/download?filename="+filename;
+                        audio.controls = true;
+                        
+                        outputElement.appendChild(audio);
+
+                        downloadButton.style.display = 'block'; // Show the "Розпізнати ноти" button
+                    } else {
+                        alert("Error uploading file");
+                    }
+                };
+
+                var formData = new FormData();
+                formData.append("file", file);
+                xhr.send(formData);
+            }
+        });
         </script>
         
 </body>

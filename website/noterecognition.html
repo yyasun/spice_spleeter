@@ -24,23 +24,25 @@
         </ul>
     </nav>
     <main class="container">
-        <h3 style="margin-top: 30px;">Прослухати аудіофайл 'Twinkle twinkle little star.mp3'</h3>
-        <div class="audio-player-container">
+        <!-- <h3 style="margin-top: 30px;">Прослухати аудіофайл 'Twinkle twinkle little star.mp3'</h3> -->
+        <!-- <div class="audio-player-container">
             <audio id="audioPlayer" controls>
                 <source src="11 - Dancing With Myself.MP3" type="audio/mpeg">
                 Your browser does not support the audio tag.
             </audio>
-        </div>
+        </div> -->
     
         <!-- Notesheet Placeholder -->
         <div class="notesheet-container">
-        <h2 style="margin-top: 30px; text-align: left;">Партитура Twinkle twinkle little star.mid</h2>
+        <h2 style="margin-top: 30px; text-align: left;">Партитура</h2>
 
-         <div id="output"></div>
+         <div id="output">
+            <!-- <img src="http://127.0.0.1:5000/download?filename=music-sheet-1.png" alt="Girl in a jacket" > -->
+         </div>
          <script src="notes.js"></script>
         <div id="sheet"></div>
         <div class="button-container">
-        <button id="export-pdf" role="button" class="button2" >Завантажити MIDI файл</button>
+        <button id="export-pdf" role="button" class="button2" onclick="download_midi()" >Завантажити MIDI файл</button>
         <button id="export-pdf" role="button" class="button2" >Експорт в PDF</button>
         </div>
 

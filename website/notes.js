@@ -1,70 +1,17 @@
-VexFlow.loadFonts('Bravura', 'Academico').then(() => {
-    VexFlow.setFonts('Bravura', 'Academico');
-    const { Factory } = VexFlow;
-    const vf = new Factory({
-      renderer: { elementId: 'output', width: 1000, height: 600 },
-    });
-  
-    const context = vf.getContext();
-  
-    function createSystem(x, y, width, notes) {
-      const system = vf.System({ x: x, y: y, width: width, spaceBetweenStaves: 10 });
-      const voice = vf.Voice().addTickables(notes);
-      system.addStave({
-        voices: [voice],
-      }).addClef('treble').addTimeSignature('4/4');
-    }
-  
-    const notesRow1_1 = [
-      vf.StaveNote({ keys: ['c/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['d/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['e/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['f/4'], duration: 'q' })
-    ];
-  
-    const notesRow1_2 = [
-      vf.StaveNote({ keys: ['g/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['a/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['b/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['c/5'], duration: 'q' })
-    ];
-  
-    createSystem(10, 20, 350, notesRow1_1);
-    createSystem(350, 20, 350, notesRow1_2);
-  
-    const notesRow2_1 = [
-      vf.StaveNote({ keys: ['c/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['d/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['e/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['f/5'], duration: 'q' })
-    ];
-  
-    const notesRow2_2 = [
-      vf.StaveNote({ keys: ['g/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['a/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['b/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['c/6'], duration: 'q' })
-    ];
-  
-    createSystem(10, 220, 350, notesRow2_1);
-    createSystem(350, 220, 350, notesRow2_2);
-  
-    const notesRow3_1 = [
-      vf.StaveNote({ keys: ['c/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['e/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['g/4'], duration: 'q' }),
-      vf.StaveNote({ keys: ['c/5'], duration: 'q' })
-    ];
-  
-    const notesRow3_2 = [
-      vf.StaveNote({ keys: ['d/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['f/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['a/5'], duration: 'q' }),
-      vf.StaveNote({ keys: ['d/6'], duration: 'q' })
-    ];
-  
-    createSystem(10, 420, 350, notesRow3_1);
-    createSystem(350, 420, 350, notesRow3_2);
-  
-    vf.draw();
-  });
+var xhr = new XMLHttpRequest();
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const filename = urlParams.get('filename');
+
+var image = xhr.response;                        
+var img = document.createElement('img');
+img.src = "http://127.0.0.1:5000/download?filename="+filename;
+var output = document.getElementById("output");
+output.appendChild(img);
+
+function download_midi(){
+  var link = document.createElement('a');         
+  link.href = "http://127.0.0.1:5000/download?filename="+"converted_audio_file.mid";
+  link.download = "output.mid"; // You can set the file name here
+  link.click();
+}
